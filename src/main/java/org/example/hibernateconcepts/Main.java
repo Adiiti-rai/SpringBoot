@@ -1,23 +1,50 @@
 package org.example.hibernateconcepts;
 
-// here I am creating the object of Alien class.
-import org.hibernate.cfg.Configuration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 public class Main {
-    public static void main(String[] args){
-        Alien a1= new Alien();
+    public static void main(String[] args) {
+        //  Step 1: Create Object
+        Alien a1 = new Alien();
         a1.setAid(101);
         a1.setAname("Aditi");
         a1.setTech("Java");
-        // hey hibernate save with a1 object
 
-        Configuration config= new Configuration();
-        SessionFactory factory= config.buildSessionFactory(); // only once
-        Session session= factory.openSession();
-        //session.save(a1);  or
-        session.persist(a1);
+        try {
+            //  Step 2: Load Configuration
+            Configuration config = new Configuration();
+            config.configure();   // load hibernate.cfg.xml
 
+            //  Debug
+            System.out.println(Main.class.getClassLoader()
+                    .getResource("hibernate.cfg.xml"));
+
+            //  Step 3: Create SessionFactory
+            SessionFactory factory = config.buildSessionFactory();
+
+            // Step 4: Open Session
+            Session session = factory.openSession();
+
+            // Step 5: Transaction Start
+             Transaction transaction=session.beginTransaction();
+
+            // Step 6: Save Object
+            session.save(a1);
+
+            // Step 7: Commit
+            transaction.commit();
+
+            // Step 8: Close
+            session.close();
+            factory.close();
+
+            System.out.println(" Data inserted successfully...");
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error is creating session factory"+e.getMessage());
+        }
     }
 }
-
