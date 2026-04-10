@@ -16,11 +16,8 @@ public class Main {
         try {
             //  Step 2: Load Configuration
             Configuration config = new Configuration();
-            config.configure();   // load hibernate.cfg.xml
-
-            //  Debug
-            System.out.println(Main.class.getClassLoader()
-                    .getResource("hibernate.cfg.xml"));
+            config.configure("hibernate.cfg.xml");   // load hibernate.cfg.xml
+            config.addAnnotatedClass(Alien.class); // add annotated class
 
             //  Step 3: Create SessionFactory
             SessionFactory factory = config.buildSessionFactory();

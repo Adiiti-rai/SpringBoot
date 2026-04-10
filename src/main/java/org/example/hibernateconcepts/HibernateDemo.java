@@ -31,6 +31,11 @@ package org.example.hibernateconcepts;
 //Hibernate Criteria API
 //Hibernate and Spring integration
 
+// e.printStackTrace();  //printStackTrace() = method that prints full error details
+//
+//printStackTrace() is a method of: java.lang.Throwable
+//
+
 public class HibernateDemo {
 }
 
