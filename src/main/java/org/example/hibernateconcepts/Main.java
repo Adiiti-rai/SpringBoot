@@ -17,7 +17,8 @@ public class Main {
             //  Step 2: Load Configuration
             Configuration config = new Configuration();
             config.configure("hibernate.cfg.xml");   // load hibernate.cfg.xml
-            config.addAnnotatedClass(Alien.class); // add annotated class
+            config.addAnnotatedClass(Alien.class); // add annotated class-->Registers entity classes with Hibernate
+            //Why?-->Hibernate needs to know-->Which classes map to DB tables
 
             //  Step 3: Create SessionFactory
             SessionFactory factory = config.buildSessionFactory();

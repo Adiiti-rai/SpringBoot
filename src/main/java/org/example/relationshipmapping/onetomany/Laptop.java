@@ -1,27 +1,43 @@
 package org.example.relationshipmapping.onetomany;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 @Entity
 public class Laptop {
+
     @Id
-    private int Lid;
-    private String Lname;
+    @GeneratedValue
+    private int id;
 
-    public int getLid() {
-        return Lid;
+    private String brand;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id") // foreign key
+    private Student student;
+
+    // Getter & Setter
+    public int getId() {
+        return id;
     }
 
-    public void setLid(int lid) {
-        Lid = lid;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getLname() {
-        return Lname;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setLname(String lname) {
-        Lname = lname;
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

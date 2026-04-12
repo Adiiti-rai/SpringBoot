@@ -2,20 +2,32 @@ package org.example.relationshipmapping.onetomany;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
+import java.util.List;
+
 
 @Entity
 public class Student {
-    @Id
-    private int rollNo;
-    private String name;
-    private int marks;
 
-    public int getRollNo() {
-        return rollNo;
+    @Id
+    @GeneratedValue
+    private int rollno;
+
+    private String name;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Laptop> laptops;
+
+    // getters & setters
+
+    public int getRollno() {
+        return rollno;
     }
 
-    public void setRollNo(int rollNo) {
-        this.rollNo = rollNo;
+    public void setId(int rollno) {
+        this.rollno = rollno;
     }
 
     public String getName() {
@@ -26,11 +38,13 @@ public class Student {
         this.name = name;
     }
 
-    public int getMarks() {
-        return marks;
+    public List<Laptop> getLaptops() {
+        return laptops;
     }
 
-    public void setMarks(int marks) {
-        this.marks = marks;
+    public void setLaptops(List<Laptop> laptops) {
+        this.laptops = laptops;
     }
 }
+
+

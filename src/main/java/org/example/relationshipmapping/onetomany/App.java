@@ -4,39 +4,42 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+import java.util.Arrays;
+
 public class App {
     public static void main(String[] args) {
-       Laptop laptop= new Laptop();
-       laptop.setLid(101);
-         laptop.setLname("Dell");
 
-         Student student= new Student();
-            student.setRollNo(1);
-            student.setName("John");
-            student.setMarks(80);
+        Configuration config = new Configuration();
+        config.configure("hibernate.cfg.xml");
+        config.addAnnotatedClass(Student.class);
+        config.addAnnotatedClass(Laptop.class);
 
-            try {
-                Configuration config = new Configuration();
-                config.configure("hibernate.cfg.xml");
-                config.addAnnotatedClass(Laptop.class);
-                config.addAnnotatedClass(Student.class);
+        SessionFactory factory = config.buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+        // Create Student
+        Student s = new Student();
+        s.setName("Aditi");
+        // Create Laptops
+        Laptop l1 = new Laptop();
+        l1.setBrand("HP");
 
-                SessionFactory factory = config.buildSessionFactory();
-                Session session = factory.openSession();
-                Transaction transaction = session.beginTransaction();
+        Laptop l2 = new Laptop();
+        l2.setBrand("Dell");
 
-                session.save(laptop);
-                session.save(student);
+        // Set relationship
+        l1.setStudent(s);
+        l2.setStudent(s);
 
-                transaction.commit();
-                session.close();
-                factory.close();
-                System.out.println("Data inserted successfully...");
-            }
-            catch(Exception e){
-                throw new RuntimeException("Error is creating session factory"+e.getMessage());
-            }
+        s.setLaptops(Arrays.asList(l1, l2));
 
+        // Save (cascade handles child)
+        session.save(s);
+        tx.commit();
+
+        session.close();
+        factory.close();
+        System.out.println("One-to-Many mapping done successfully!");
     }
-
 }
